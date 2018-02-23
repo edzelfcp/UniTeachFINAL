@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "471534086096",
+    "firebase_url": "https://loginapp-f9e30.firebaseio.com",
+    "project_id": "loginapp-f9e30",
+    "storage_bucket": "loginapp-f9e30.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:471534086096:android:5919974da3b5c62f",
+        "android_client_info": {
+          "package_name": "com.example.samsung.loginapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "471534086096-g0dnr0lnud4fb6apo1jsg5at2mjc1jrs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.samsung.loginapp",
+            "certificate_hash": "0d86f44f31d7b78cfab428506b1503abe563bfe6"
+          }
+        },
+        {
+          "client_id": "471534086096-c2hdunjj0rl78sbits3grtph7j4juuj2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPzRqi6_DQG7pnZI6DptyIRuP4SMWSpVU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "471534086096-c2hdunjj0rl78sbits3grtph7j4juuj2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

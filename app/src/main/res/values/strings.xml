@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">LoginApp</string>
+    <string name="uni_hint">University email</string>
+    <string name="password_hint">Password</string>
+    <string name="login_logo_desc">Logo Login Page</string>
+    <string name="login_btn_text">Login to account</string>
+    <string name="login_reg_btn_text">Need a new Account?</string>
+    <string name="action_search_text">Search</string>
+    <string name="action_setting_text">Account Settings</string>
+    <string name="action_logout_text">Logout</string>
+    <string name="action_setting_btn">Settings</string>
+    <string name="reg_confirm_pass">Confirm Password</string>
+    <string name="reg_btn">Create Account</string>
+    <string name="reg_login_text">Already have an Account?</string>
+    <string name="logo_image">logodesc</string>
+</resources>
