@@ -1,4 +1,4 @@
-package com.example.samsung.loginapp;
+package com.example.samsung.UniTeach;
 
 import android.content.Intent;
 import android.os.Bundle;

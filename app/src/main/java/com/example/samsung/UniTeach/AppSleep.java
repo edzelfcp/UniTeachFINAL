@@ -1,4 +1,4 @@
-package com.example.samsung.loginapp;
+package com.example.samsung.UniTeach;
 
 import android.app.Application;
 import android.os.SystemClock;
@@ -11,6 +11,6 @@ public class AppSleep extends Application {
     @Override
     public void onCreate(){
         super.onCreate();
-        SystemClock.sleep(3500);
+        SystemClock.sleep(2000);
     }
 }

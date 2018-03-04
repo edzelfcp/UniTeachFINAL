@@ -1,4 +1,4 @@
-package com.example.samsung.loginapp;
+package com.example.samsung.UniTeach;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

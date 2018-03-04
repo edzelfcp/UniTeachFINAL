@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
-    tools:context="com.example.samsung.loginapp.LoginActivity">
+    tools:context="com.example.samsung.UniTeach.LoginActivity">
 
     <ImageView
         android:id="@+id/regPageLogo"
@@ -30,10 +30,9 @@
         android:id="@+id/reg_email"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="208dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="240dp"
         android:backgroundTint="@android:color/white"
         android:ems="10"
         android:hint="@string/uni_hint"
@@ -42,12 +41,10 @@
         android:textColor="@android:color/white"
         android:textColorHint="@color/whiteTransparentHalf"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/reg_login_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.8" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/reg_pass"
@@ -71,7 +68,7 @@
     <Button
         android:id="@+id/login_btn"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="66dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -84,6 +81,7 @@
         android:textIsSelectable="true"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/reg_pass" />
 
@@ -94,6 +92,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:backgroundTint="@android:color/white"
         android:paddingBottom="20dp"
         android:paddingTop="20dp"
@@ -103,7 +102,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login_btn"
+        app:layout_constraintVertical_bias="1.0" />
 
     <ProgressBar
         android:id="@+id/login_progress"
