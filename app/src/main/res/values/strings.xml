@@ -37,4 +37,12 @@
     <string name="buttom_home_text">Home</string>
     <string name="buttom_tutor_text">Tutor</string>
     <string name="buttom_book_selling_text">Book Selling</string>
+    <string name="setup_name_text">Name</string>
+    <string name="setup_university_text">Name of University</string>
+    <string name="setup_btn_hint">Save Settings</string>
+    <string name="new_post_btn_hint">Post</string>
+    <string name="description_text">Description ..</string>
+    <string name="blog_post_date">Blog Post Date</string>
+    <string name="post_username">Username</string>
+    <string name="image_post">Post Image</string>
 </resources>

@@ -64,14 +64,13 @@ public class SetupActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Account Setting");
 
         firebaseAuth = FirebaseAuth.getInstance();
-
         user_id = firebaseAuth.getCurrentUser().getUid();
         //users can start storing files onto Database -> account setting -> profile picture
+
         firebaseFirestore = FirebaseFirestore.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference();
 
         setupImage = findViewById(R.id.setup_image);
-
         setupName = findViewById(R.id.setup_name);
         setupUniversityName = findViewById(R.id.setup_University);
         setupBtn = findViewById(R.id.setup_btn);
@@ -133,7 +132,7 @@ public class SetupActivity extends AppCompatActivity {
                     if (isChanged) {
 
 
-                        String user_id = firebaseAuth.getCurrentUser().getUid();
+                        user_id = firebaseAuth.getCurrentUser().getUid();
                         String university_id = firebaseAuth.getCurrentUser().getUid();
 
                         StorageReference image_path = storageReference.child("profile_images").child(user_id + ".jpg").child(university_id);

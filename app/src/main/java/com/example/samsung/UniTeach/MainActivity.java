@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -11,7 +12,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseFirestore firebaseFirestore;
     private String current_user_id;
 
-    private Button addPostBtn;
+    private FloatingActionButton addPostBtn;
 
     private BottomNavigationView maintopNav;
 
@@ -52,47 +52,52 @@ public class MainActivity extends AppCompatActivity {
 
         getSupportActionBar().setTitle("UniTeach");
 
-        maintopNav = findViewById(R.id.maintopNav);
+        if (mAuth.getCurrentUser() != null) {
 
-        // FRAGMENTS
-        homeFragment = new HomeFragment();
-        tutorFragment = new TutorFragment();
-        bookSellingFragment = new BooksellingFragment();
+            maintopNav = findViewById(R.id.maintopNav);
 
-        maintopNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            // FRAGMENTS
+            homeFragment = new HomeFragment();
+            tutorFragment = new TutorFragment();
+            bookSellingFragment = new BooksellingFragment();
 
-                switch (item.getItemId()){
+            replaceFragment(homeFragment);
 
-                    case R.id.bottom_action_home :
-                        replaceFragment(homeFragment);
-                        return true;
+            maintopNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-                    case R.id.bottom_action_tutor :
-                        replaceFragment(tutorFragment);
-                        return true;
+                    switch (item.getItemId()) {
 
-                    case R.id.bottom_action_bookselling :
-                        replaceFragment(bookSellingFragment);
-                        return true;
+                        case R.id.bottom_action_home:
+                            replaceFragment(homeFragment);
+                            return true;
 
-                    default:
-                        return false;
+                        case R.id.bottom_action_tutor:
+                            replaceFragment(tutorFragment);
+                            return true;
 
+                        case R.id.bottom_action_bookselling:
+                            replaceFragment(bookSellingFragment);
+                            return true;
+
+                        default:
+                            return false;
+
+                    }
                 }
-            }
-        });
+            });
 
-        addPostBtn = findViewById(R.id.add_post_btn);
-        addPostBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            addPostBtn = findViewById(R.id.add_post_btn);
+            addPostBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-                Intent newPostIntent = new Intent(MainActivity.this, NewPostActivity.class);
-                startActivity(newPostIntent);
-            }
-        });
+                    Intent newPostIntent = new Intent(MainActivity.this, NewPostActivity.class);
+                    startActivity(newPostIntent);
+                }
+            });
+        }
     }
 
     @Override
