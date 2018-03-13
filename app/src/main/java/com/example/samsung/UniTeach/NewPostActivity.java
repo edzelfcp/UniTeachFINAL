@@ -89,8 +89,8 @@ public class NewPostActivity extends AppCompatActivity {
 
                 CropImage.activity()
                         .setGuidelines(CropImageView.Guidelines.ON)
-                        .setMinCropResultSize(512, 512)
-                        .setAspectRatio(1, 1)
+                        .setMinCropResultSize(600, 600)
+                        .setAspectRatio(2, 2)
                         .start(NewPostActivity.this);
             }
         });
@@ -122,8 +122,8 @@ public class NewPostActivity extends AppCompatActivity {
 
                                 try {
                                     compressedImageFile = new Compressor(NewPostActivity.this)
-                                            .setMaxHeight(100)
-                                            .setMaxWidth(100)
+                                            .setMaxHeight(150)
+                                            .setMaxWidth(150)
                                             .setQuality(2)
                                             .compressToBitmap(newImageFile);
 

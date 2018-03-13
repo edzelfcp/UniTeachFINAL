@@ -1,12 +1,15 @@
 package com.example.samsung.UniTeach;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -21,7 +24,10 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class MainActivity extends AppCompatActivity {
+//
+public class MainActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener, TutorFragment.OnFragmentInteractionListener,
+BookSellingFragment.OnFragmentInteractionListener{
+    //open field for tab layout purpose
 
     private Toolbar mainToolbar;
 
@@ -34,8 +40,8 @@ public class MainActivity extends AppCompatActivity {
     private BottomNavigationView maintopNav;
 
     private HomeFragment homeFragment;
-    private TutorFragment tutorFragment;
-    private BooksellingFragment bookSellingFragment;
+    private NotificationFragment notificationFragment;
+    private AccountFragment bookSellingFragment;
 
 
     @Override
@@ -46,11 +52,35 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
 
-
         mainToolbar = (Toolbar) findViewById(R.id.main_toolbar);
         setSupportActionBar(mainToolbar);
 
         getSupportActionBar().setTitle("UniTeach");
+
+        //tab layout purpose
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+
+        final ViewPager viewPager =(ViewPager)findViewById(R.id.main_container);
+        final PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager(),tabLayout.getTabCount());
+        viewPager.setAdapter(adapter);
+        viewPager.setOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
 
         if (mAuth.getCurrentUser() != null) {
 
@@ -58,8 +88,8 @@ public class MainActivity extends AppCompatActivity {
 
             // FRAGMENTS
             homeFragment = new HomeFragment();
-            tutorFragment = new TutorFragment();
-            bookSellingFragment = new BooksellingFragment();
+            notificationFragment = new NotificationFragment();
+            bookSellingFragment = new AccountFragment();
 
             replaceFragment(homeFragment);
 
@@ -74,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
                             return true;
 
                         case R.id.bottom_action_tutor:
-                            replaceFragment(tutorFragment);
+                            replaceFragment(notificationFragment);
                             return true;
 
                         case R.id.bottom_action_bookselling:
@@ -184,6 +214,11 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.main_container, fragment);
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }
 

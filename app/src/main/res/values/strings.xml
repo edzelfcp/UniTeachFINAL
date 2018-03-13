@@ -35,8 +35,8 @@
     <string name="bottom_tutor_text">Tutor</string>
     <string name="bottom_book_selling_text">Book Selling</string>
     <string name="buttom_home_text">Home</string>
-    <string name="buttom_tutor_text">Tutor</string>
-    <string name="buttom_book_selling_text">Book Selling</string>
+    <string name="buttom_tutor_text">Notifications</string>
+    <string name="buttom_book_selling_text">Account</string>
     <string name="setup_name_text">Name</string>
     <string name="setup_university_text">Name of University</string>
     <string name="setup_btn_hint">Save Settings</string>
