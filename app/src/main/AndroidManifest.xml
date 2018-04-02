@@ -37,6 +37,9 @@
         <activity
             android:name=".NewPostActivity"
             android:parentActivityName=".MainActivity" />
+        <activity android:name=".PasswordActivity" />
+        <activity android:name=".TutorApplyActivity" />
+        <activity android:name=".NewBookPostActivity"></activity>
     </application>
 
 </manifest>

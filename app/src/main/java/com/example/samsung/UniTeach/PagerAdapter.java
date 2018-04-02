@@ -18,7 +18,7 @@ public class PagerAdapter extends FragmentStatePagerAdapter{
         switch(position)
         {
             case 0:
-                HomeFragment tab1 = new HomeFragment();
+                Home2Fragment tab1 = new Home2Fragment();
                 return tab1;
 
             case 1:

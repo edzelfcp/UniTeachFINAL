@@ -5,11 +5,21 @@
     tools:context="com.example.samsung.UniTeach.TutorFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Tab 2 - Tutor"
-        android:layout_centerInParent="true"
-        android:textSize="30dp" />
+    <GridView
+        android:id="@+id/tutor_grid_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+
+        android:columnWidth="100dp"
+        android:gravity="center"
+
+        android:horizontalSpacing="10dp"
+        android:numColumns="2"
+
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="10dp" />
 
 </RelativeLayout>

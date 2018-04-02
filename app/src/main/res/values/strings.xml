@@ -45,4 +45,10 @@
     <string name="blog_post_date">Blog Post Date</string>
     <string name="post_username">Username</string>
     <string name="image_post">Post Image</string>
+    <string name="forgot_txt">Forgot Password?</string>
+    <string name="reset_password">Confirm</string>
+    <string name="email_hint">Email</string>
+    <string name="tutor_apply_btn">APPLY HERE!</string>
+    <string name="new_book_image">new book</string>
+    <string name="book_details_btn">See Details</string>
 </resources>

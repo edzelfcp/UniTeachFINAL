@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -24,25 +23,24 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-//
-public class MainActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener, TutorFragment.OnFragmentInteractionListener,
+
+public class MainActivity extends AppCompatActivity implements Home2Fragment.OnFragmentInteractionListener, TutorFragment.OnFragmentInteractionListener,
 BookSellingFragment.OnFragmentInteractionListener{
     //open field for tab layout purpose
 
     private Toolbar mainToolbar;
-
     private FirebaseAuth mAuth;
     private FirebaseFirestore firebaseFirestore;
+
     private String current_user_id;
 
     private FloatingActionButton addPostBtn;
 
-    private BottomNavigationView maintopNav;
+    /*private BottomNavigationView maintopNav;
 
     private HomeFragment homeFragment;
     private NotificationFragment notificationFragment;
-    private AccountFragment bookSellingFragment;
-
+    private AccountFragment bookSellingFragment;*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,64 +55,33 @@ BookSellingFragment.OnFragmentInteractionListener{
 
         getSupportActionBar().setTitle("UniTeach");
 
-        //tab layout purpose
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
-
-        final ViewPager viewPager =(ViewPager)findViewById(R.id.main_container);
-        final PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager(),tabLayout.getTabCount());
-        viewPager.setAdapter(adapter);
-        viewPager.setOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-
-        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-
+        //checks if user exists so log out can work
         if (mAuth.getCurrentUser() != null) {
 
-            maintopNav = findViewById(R.id.maintopNav);
+            //tab layout purpose
+            TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
 
-            // FRAGMENTS
-            homeFragment = new HomeFragment();
-            notificationFragment = new NotificationFragment();
-            bookSellingFragment = new AccountFragment();
+            final ViewPager viewPager = (ViewPager) findViewById(R.id.main_container);
+            final PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
+            viewPager.setAdapter(adapter);
+            viewPager.setOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
-            replaceFragment(homeFragment);
+            //initializationFragment();
 
-            maintopNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                 @Override
-                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                public void onTabSelected(TabLayout.Tab tab) {
+                    viewPager.setCurrentItem(tab.getPosition());
+                }
 
-                    switch (item.getItemId()) {
+                @Override
+                public void onTabUnselected(TabLayout.Tab tab) {
 
-                        case R.id.bottom_action_home:
-                            replaceFragment(homeFragment);
-                            return true;
+                }
 
-                        case R.id.bottom_action_tutor:
-                            replaceFragment(notificationFragment);
-                            return true;
+                @Override
+                public void onTabReselected(TabLayout.Tab tab) {
 
-                        case R.id.bottom_action_bookselling:
-                            replaceFragment(bookSellingFragment);
-                            return true;
-
-                        default:
-                            return false;
-
-                    }
                 }
             });
 
@@ -125,6 +92,7 @@ BookSellingFragment.OnFragmentInteractionListener{
 
                     Intent newPostIntent = new Intent(MainActivity.this, NewPostActivity.class);
                     startActivity(newPostIntent);
+
                 }
             });
         }
@@ -187,7 +155,11 @@ BookSellingFragment.OnFragmentInteractionListener{
             case R.id.action_settings_btn:
                 Intent settingIntent = new Intent(MainActivity.this, SetupActivity.class);
                 startActivity(settingIntent);
+                return true;
 
+            case R.id.action_apply_btn:
+                Intent applyIntent = new Intent(MainActivity.this, TutorApplyActivity.class);
+                startActivity(applyIntent);
                 return true;
 
 
@@ -209,15 +181,47 @@ BookSellingFragment.OnFragmentInteractionListener{
 
     }
 
+    /*private void initializationFragment(){
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+
+        fragmentTransaction.add(R.id.main_container, Home2Fragment);
+        fragmentTransaction.add(R.id.main_container, TutorFragment);
+        fragmentTransaction.add(R.id.main_container, BookSellingFragment);
+
+        fragmentTransaction.hide(TutorFragment);
+        fragmentTransaction.hide(BookSellingFragment);
+
+        fragmentTransaction.commit();
+    }*/
+
     private void replaceFragment(Fragment fragment) {
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        //new codes
+        /*if(fragment == Home2Fragment){
+            fragmentTransaction.hide(TutorFragment);
+            fragmentTransaction.hide(BookSellingFragment);
+        }
+
+        if(fragment == TutorFragment){
+            fragmentTransaction.hide(Home2Fragment);
+            fragmentTransaction.hide(BookSellingFragment);
+        }
+
+        if(fragment == BookSellingFragment){
+            fragmentTransaction.hide(Home2Fragment);
+            fragmentTransaction.hide(TutorFragment);
+        }*/
+
+        fragmentTransaction.show(fragment);
+
         fragmentTransaction.replace(R.id.main_container, fragment);
         fragmentTransaction.commit();
     }
 
     @Override
     public void onFragmentInteraction(Uri uri) {
+
 
     }
 }

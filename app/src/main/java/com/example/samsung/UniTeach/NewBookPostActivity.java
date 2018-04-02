@@ -3,9 +3,9 @@ package com.example.samsung.UniTeach;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
@@ -38,18 +38,18 @@ import java.util.UUID;
 
 import id.zelory.compressor.Compressor;
 
+public class NewBookPostActivity extends AppCompatActivity {
 
-public class NewPostActivity extends AppCompatActivity {
+    private Toolbar newBookToolbar;
 
-    private Toolbar newPostToolbar;
+    private ImageView newBookImage;
+    private EditText newBookDesc;
+    private EditText newBookPrice;
+    private Button newBookBtn;
 
-    private ImageView newPostImage;
-    private EditText newPostDesc;
-    private Button newPostBtn;
+    private Uri bookImageUri = null;
 
-    private Uri postImageUri = null;
-
-    private ProgressBar newPostProgress;
+    private ProgressBar newBookProgress;
 
     private StorageReference storageReference;
     private FirebaseFirestore firebaseFirestore;
@@ -63,7 +63,7 @@ public class NewPostActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_post);
+        setContentView(R.layout.activity_new_book_post);
 
         storageReference = FirebaseStorage.getInstance().getReference();
         firebaseFirestore = FirebaseFirestore.getInstance();
@@ -71,17 +71,18 @@ public class NewPostActivity extends AppCompatActivity {
 
         current_user_id = firebaseAuth.getCurrentUser().getUid();
 
-        newPostToolbar = findViewById(R.id.new_post_toolbar);
-        setSupportActionBar(newPostToolbar);
-        getSupportActionBar().setTitle("Add New Post");
+        newBookToolbar = findViewById(R.id.new_book_toolbar);
+        setSupportActionBar(newBookToolbar);
+        getSupportActionBar().setTitle("Add New Book");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        newPostImage = findViewById(R.id.new_post_image);
-        newPostDesc = findViewById(R.id.new_post_desc);
-        newPostBtn = findViewById(R.id.post_btn);
-        newPostProgress = findViewById(R.id.new_post_progress);
+        newBookImage = findViewById(R.id.new_book_image);
+        newBookDesc = findViewById(R.id.new_book_name);
+        newBookPrice = findViewById(R.id.new_book_price);
+        newBookBtn = findViewById(R.id.book_post_btn);
+        newBookProgress = findViewById(R.id.new_book_progress);
 
-        newPostImage.setOnClickListener(new View.OnClickListener() {
+        newBookImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -89,33 +90,32 @@ public class NewPostActivity extends AppCompatActivity {
                         .setGuidelines(CropImageView.Guidelines.ON)
                         .setMinCropResultSize(600, 600)
                         .setAspectRatio(2, 2)
-                        .start(NewPostActivity.this);
+                        .start(NewBookPostActivity.this);
             }
         });
 
-
-        newPostBtn.setOnClickListener(new View.OnClickListener() {
+        newBookBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                final String desc = newPostDesc.getText().toString();
+                final String desc = newBookDesc.getText().toString();
 
-                if (!TextUtils.isEmpty(desc) && postImageUri != null) {
+                if (!TextUtils.isEmpty(desc) && bookImageUri != null) {
 
-                    newPostProgress.setVisibility(View.VISIBLE);
+                    newBookProgress.setVisibility(View.VISIBLE);
 
                     final String randomName = UUID.randomUUID().toString();
 
                     //Upload photo
-                    File newImageFile = new File(postImageUri.getPath());
-                    try{
+                    File newImageFile = new File(bookImageUri.getPath());
+                    try {
 
-                        compressedImageFile = new Compressor(NewPostActivity.this)
+                        compressedImageFile = new Compressor(NewBookPostActivity.this)
                                 .setMaxHeight(720)
                                 .setMaxWidth(720)
                                 .setQuality(50)
                                 .compressToBitmap(newImageFile);
-                    } catch (IOException e){
+                    } catch (IOException e) {
                         e.printStackTrace();
                     }
 
@@ -124,7 +124,7 @@ public class NewPostActivity extends AppCompatActivity {
                     byte[] imageData = baos.toByteArray();
 
                     //Upload photo
-                    UploadTask filePath = storageReference.child("post_images").child(randomName + ".jpg").putBytes(imageData);
+                    UploadTask filePath = storageReference.child("book_images").child(randomName + ".jpg").putBytes(imageData);
 
                     filePath.addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                         @Override
@@ -134,10 +134,10 @@ public class NewPostActivity extends AppCompatActivity {
 
                             if (task.isSuccessful()) {
 
-                                File newImageFile = new File(postImageUri.getPath());
+                                File newImageFile = new File(bookImageUri.getPath());
 
                                 try {
-                                    compressedImageFile = new Compressor(NewPostActivity.this)
+                                    compressedImageFile = new Compressor(NewBookPostActivity.this)
                                             .setMaxHeight(150)
                                             .setMaxWidth(150)
                                             .setQuality(2)
@@ -151,7 +151,7 @@ public class NewPostActivity extends AppCompatActivity {
                                 compressedImageFile.compress(Bitmap.CompressFormat.JPEG, 100, baos);
                                 byte[] thumbData = baos.toByteArray();
 
-                                UploadTask uploadTask = storageReference.child("post_image/thumbs")
+                                UploadTask uploadTask = storageReference.child("book_image/thumbs")
                                         .child(randomName + ".jpg").putBytes(thumbData);
 
                                 uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -160,6 +160,7 @@ public class NewPostActivity extends AppCompatActivity {
 
                                         String downloadthumbUri = taskSnapshot.getDownloadUrl().toString();
 
+                                        //change specifications
                                         Map<String, Object> postMap = new HashMap<>();
                                         postMap.put("image_url", downloadUri);
                                         postMap.put("image_thumb", downloadthumbUri);
@@ -167,14 +168,14 @@ public class NewPostActivity extends AppCompatActivity {
                                         postMap.put("user_id", current_user_id);
                                         postMap.put("timestamp", FieldValue.serverTimestamp());
 
-                                        firebaseFirestore.collection("Posts").add(postMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                        firebaseFirestore.collection("Books").add(postMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                                             @Override
                                             public void onComplete(@NonNull Task<DocumentReference> task) {
 
                                                 if (task.isSuccessful()) {
 
-                                                    Toast.makeText(NewPostActivity.this, "Post Added", Toast.LENGTH_LONG).show();
-                                                    Intent mainIntent = new Intent(NewPostActivity.this, MainActivity.class);
+                                                    Toast.makeText(NewBookPostActivity.this, "Book Added", Toast.LENGTH_LONG).show();
+                                                    Intent mainIntent = new Intent(NewBookPostActivity.this, MainActivity.class);
                                                     startActivity(mainIntent);
                                                     finish();
 
@@ -183,7 +184,7 @@ public class NewPostActivity extends AppCompatActivity {
 
                                                 }
 
-                                                newPostProgress.setVisibility(View.INVISIBLE);
+                                                newBookProgress.setVisibility(View.INVISIBLE);
                                             }
                                         });
 
@@ -200,7 +201,7 @@ public class NewPostActivity extends AppCompatActivity {
 
                             } else {
 
-                                newPostProgress.setVisibility(View.INVISIBLE);
+                                newBookProgress.setVisibility(View.INVISIBLE);
                             }
                         }
                     });
@@ -208,7 +209,6 @@ public class NewPostActivity extends AppCompatActivity {
             }
         });
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -218,8 +218,8 @@ public class NewPostActivity extends AppCompatActivity {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == RESULT_OK) {
 
-                postImageUri = result.getUri();
-                newPostImage.setImageURI(postImageUri);
+                bookImageUri = result.getUri();
+                newBookImage.setImageURI(bookImageUri);
 
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
 
@@ -229,6 +229,4 @@ public class NewPostActivity extends AppCompatActivity {
         }
     }
 
-
 }
-

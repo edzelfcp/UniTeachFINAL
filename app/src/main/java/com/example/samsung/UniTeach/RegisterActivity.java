@@ -70,9 +70,10 @@ public class RegisterActivity extends AppCompatActivity {
 
                                 if(task.isSuccessful()){
 
-                                    Intent setupIntent = new Intent(RegisterActivity.this, SetupActivity.class);
+                                    sendEmailVerification();
+                                    /*Intent setupIntent = new Intent(RegisterActivity.this, SetupActivity.class);
                                     startActivity(setupIntent);
-                                    finish();
+                                    finish();*/
 
                                 } else{
 
@@ -92,9 +93,31 @@ public class RegisterActivity extends AppCompatActivity {
 
                     }
                 }
+            }
+        });
+    }
+
+    private void sendEmailVerification(){
+        FirebaseUser firebaseUser = mAuth.getCurrentUser();
+        if (firebaseUser != null){
+            firebaseUser.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()){
+
+                        Toast.makeText(RegisterActivity.this, "Successfully registered, Verification mail sent", Toast.LENGTH_SHORT).show();
+                        mAuth.signOut();
+                        finish();
+                        startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+
+                    } else {
+
+                        Toast.makeText(RegisterActivity.this, "Error, unable to sent Verification mail", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
         }
-    });
-}
+    }
 
     @Override
     protected void onStart() {

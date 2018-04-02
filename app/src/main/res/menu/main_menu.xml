@@ -8,6 +8,9 @@
         android:title="@string/action_search_text"
         app:showAsAction="always" />
     <item
+        android:id="@+id/action_apply_btn"
+        android:title="@string/tutor_apply_btn" />
+    <item
         android:id="@+id/action_settings_btn"
         android:title="@string/action_setting_btn" />
     <item
