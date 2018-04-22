@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -13,7 +12,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -25,7 +23,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 
 public class MainActivity extends AppCompatActivity implements Home2Fragment.OnFragmentInteractionListener, TutorFragment.OnFragmentInteractionListener,
-BookSellingFragment.OnFragmentInteractionListener{
+BookSellingFragment2.OnFragmentInteractionListener{
     //open field for tab layout purpose
 
     private Toolbar mainToolbar;
@@ -34,7 +32,7 @@ BookSellingFragment.OnFragmentInteractionListener{
 
     private String current_user_id;
 
-    private FloatingActionButton addPostBtn;
+    //private FloatingActionButton addPostBtn;
 
     /*private BottomNavigationView maintopNav;
 
@@ -85,7 +83,7 @@ BookSellingFragment.OnFragmentInteractionListener{
                 }
             });
 
-            addPostBtn = findViewById(R.id.add_post_btn);
+            /*addPostBtn = findViewById(R.id.add_post_btn);
             addPostBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -94,7 +92,7 @@ BookSellingFragment.OnFragmentInteractionListener{
                     startActivity(newPostIntent);
 
                 }
-            });
+            });*/
         }
     }
 
@@ -162,6 +160,11 @@ BookSellingFragment.OnFragmentInteractionListener{
                 startActivity(applyIntent);
                 return true;
 
+            case R.id.action_book_btn:
+                Intent newbookIntent = new Intent(MainActivity.this, NewBookPostActivity.class);
+                startActivity(newbookIntent);
+                return true;
+
 
             default:
                 return false;
@@ -186,10 +189,10 @@ BookSellingFragment.OnFragmentInteractionListener{
 
         fragmentTransaction.add(R.id.main_container, Home2Fragment);
         fragmentTransaction.add(R.id.main_container, TutorFragment);
-        fragmentTransaction.add(R.id.main_container, BookSellingFragment);
+        fragmentTransaction.add(R.id.main_container, BookSellingFragment2);
 
         fragmentTransaction.hide(TutorFragment);
-        fragmentTransaction.hide(BookSellingFragment);
+        fragmentTransaction.hide(BookSellingFragment2);
 
         fragmentTransaction.commit();
     }*/
@@ -200,15 +203,15 @@ BookSellingFragment.OnFragmentInteractionListener{
         //new codes
         /*if(fragment == Home2Fragment){
             fragmentTransaction.hide(TutorFragment);
-            fragmentTransaction.hide(BookSellingFragment);
+            fragmentTransaction.hide(BookSellingFragment2);
         }
 
         if(fragment == TutorFragment){
             fragmentTransaction.hide(Home2Fragment);
-            fragmentTransaction.hide(BookSellingFragment);
+            fragmentTransaction.hide(BookSellingFragment2);
         }
 
-        if(fragment == BookSellingFragment){
+        if(fragment == BookSellingFragment2){
             fragmentTransaction.hide(Home2Fragment);
             fragmentTransaction.hide(TutorFragment);
         }*/

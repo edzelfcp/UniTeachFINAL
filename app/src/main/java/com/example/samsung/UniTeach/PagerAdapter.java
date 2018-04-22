@@ -26,7 +26,7 @@ public class PagerAdapter extends FragmentStatePagerAdapter{
                 return tab2;
 
             case 2:
-                BookSellingFragment tab3 = new BookSellingFragment();
+                BookSellingFragment2 tab3 = new BookSellingFragment2();
                 return tab3;
 
             default:

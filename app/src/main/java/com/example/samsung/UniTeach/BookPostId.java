@@ -9,7 +9,7 @@ public class BookPostId {
     @Exclude
     public String BookPostId;
 
-    public <T extends BookPostId> T withId(@NonNull final String id) {
+    public <T extends BookPostId> T withId(@NonNull final String id){
         this.BookPostId = id;
         return (T) this;
     }

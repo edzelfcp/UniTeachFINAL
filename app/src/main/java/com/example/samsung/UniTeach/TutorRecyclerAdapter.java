@@ -2,21 +2,15 @@ package com.example.samsung.UniTeach;
 
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
 
@@ -27,72 +21,43 @@ public class TutorRecyclerAdapter extends RecyclerView.Adapter<TutorRecyclerAdap
     public List<TutorPost> tutor_list;
     public Context context;
 
-    private FirebaseFirestore firebaseFirestore;
-    private FirebaseAuth firebaseAuth;
 
     public TutorRecyclerAdapter(List<TutorPost> tutor_list) {
-
         this.tutor_list = tutor_list;
     }
 
     @Override
-    public TutorRecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.tutor_list_item, parent, false);
-        Context context = parent.getContext();
-        firebaseFirestore = FirebaseFirestore.getInstance();
-        firebaseAuth = FirebaseAuth.getInstance();
+        context = parent.getContext();
+
         return new TutorRecyclerAdapter.ViewHolder(view);
     }
 
 
     @Override
-    public void onBindViewHolder(final TutorRecyclerAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
 
         holder.setIsRecyclable(false);
 
-        final String tutorPostId = tutor_list.get(position).TutorPostId;
-        final String currentUserId = firebaseAuth.getCurrentUser().getUid();
+        String tutName = tutor_list.get(position).getTutorName();
+        holder.setTutorName(tutName);
 
-        String desc_data = tutor_list.get(position).getDesc();
-        //holder.setDescText(desc_data);
+        String image_url = tutor_list.get(position).getImage_url();
+        String thumbUri = tutor_list.get(position).getImage_thumb();
+        holder.setTutorImage(image_url, thumbUri);
 
-        //String image_url = tutor_list.get(position).getImage_url();
-        //String thumbUri = tutor_list.get(position).getImage_thumb();
-        //holder.setBlogImage(image_url, thumbUri);
+        //String user_id = tutor_list.get(position).getUser_id();
 
-        String user_id = tutor_list.get(position).getUser_id();
-
-        firebaseFirestore.collection("Tutors").document(user_id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        holder.tutorImageView.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-
-                if(task.isSuccessful()) {
-
-                    //String userName = task.getResult().getString("name");
-                    String userImage = task.getResult().getString("image");
-
-                    holder.setUserData(userImage);
-
-                }else {
-
-                    //Firebase Exception
-
-                }
+            public void onClick(View v) {
+                Intent clickTutor = new Intent(context, clickTutorActivity.class);
+                context.startActivity(clickTutor);
 
             }
         });
-
-        try {
-
-            long millisecond = tutor_list.get(position).getTimestamp().getTime();
-            //String dateString = new SimpleDateFormat("MM/dd/yyyy").format(new Date(millisecond)).toString();
-            //holder.setTime(dateString);
-
-        } catch (Exception e){
-
-            Toast.makeText(context, "Exception : " + e.getMessage(), Toast.LENGTH_SHORT).show();
-        }
     }
 
     @Override
@@ -104,19 +69,23 @@ public class TutorRecyclerAdapter extends RecyclerView.Adapter<TutorRecyclerAdap
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         private View mView;
+        //private Button seeTutor;
 
-        private ImageView tutorImageView;
+        private CircleImageView tutorImageView;
+        private TextView tutorUserName;
 
-        private CircleImageView tutorUserImage;
+        //private CircleImageView tutorUserImage;
 
         public ViewHolder(View itemView) {
             super(itemView);
+            mView = itemView;
+            //idk what for
+            //Button seeTutor = mView.findViewById(R.id.tutorViewBtn);
         }
 
         public void setTutorImage(String downloadUri, String thumbUri){
 
-            //change blog_image to tutor_image
-            tutorImageView = mView.findViewById(R.id.blog_image);
+            tutorImageView = mView.findViewById(R.id.tutorImage);
 
             RequestOptions requestOptions = new RequestOptions();
             requestOptions.placeholder(R.drawable.web_hi_res_512);
@@ -126,17 +95,26 @@ public class TutorRecyclerAdapter extends RecyclerView.Adapter<TutorRecyclerAdap
             ).into(tutorImageView);
         }
 
-        public void setUserData(String image){
+        public void setTutorName(String tutorName) {
+
+            tutorUserName = mView.findViewById(R.id.tutorName);
+            tutorUserName.setText(tutorName);
+        }
+
+        /*public void setUserData(String name,String image){
 
             //change blog_user_image to tutor_user_image
-            tutorUserImage = mView.findViewById(R.id.blog_user_image);
+            tutorUserImage = mView.findViewById(R.id.tutorImage);
+            tutorUserName = mView.findViewById(R.id.tutorName);
+
+            tutorUserName.setText(name);
 
             RequestOptions placeholderOption = new RequestOptions();
             placeholderOption.placeholder(R.drawable.addnewpost3);
 
             Glide.with(context).applyDefaultRequestOptions(placeholderOption).load(image).into(tutorUserImage);
 
-        }
+        }*/
 
     }
 

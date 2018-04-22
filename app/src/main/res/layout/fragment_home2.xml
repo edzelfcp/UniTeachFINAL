@@ -13,4 +13,16 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true" />
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/add_new_post"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="17dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@mipmap/add_btn" />
+
 </RelativeLayout>

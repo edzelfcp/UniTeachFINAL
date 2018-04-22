@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -45,6 +46,8 @@ public class NewBookPostActivity extends AppCompatActivity {
     private ImageView newBookImage;
     private EditText newBookDesc;
     private EditText newBookPrice;
+    private EditText newBookEdition;
+
     private Button newBookBtn;
 
     private Uri bookImageUri = null;
@@ -78,7 +81,9 @@ public class NewBookPostActivity extends AppCompatActivity {
 
         newBookImage = findViewById(R.id.new_book_image);
         newBookDesc = findViewById(R.id.new_book_name);
+        newBookEdition = findViewById(R.id.new_book_edition);
         newBookPrice = findViewById(R.id.new_book_price);
+
         newBookBtn = findViewById(R.id.book_post_btn);
         newBookProgress = findViewById(R.id.new_book_progress);
 
@@ -98,9 +103,12 @@ public class NewBookPostActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                final String desc = newBookDesc.getText().toString();
+                final String description = newBookDesc.getText().toString();
+                final String edition = newBookEdition.getText().toString();
+                final String price = newBookPrice.getText().toString();
 
-                if (!TextUtils.isEmpty(desc) && bookImageUri != null) {
+                if (!TextUtils.isEmpty(description) && !TextUtils.isEmpty(edition) && !TextUtils.isEmpty(price)
+                        && bookImageUri != null) {
 
                     newBookProgress.setVisibility(View.VISIBLE);
 
@@ -164,7 +172,11 @@ public class NewBookPostActivity extends AppCompatActivity {
                                         Map<String, Object> postMap = new HashMap<>();
                                         postMap.put("image_url", downloadUri);
                                         postMap.put("image_thumb", downloadthumbUri);
-                                        postMap.put("desc", desc);
+
+                                        postMap.put("title", description);
+                                        postMap.put("edition", edition);
+                                        postMap.put("price", price);
+
                                         postMap.put("user_id", current_user_id);
                                         postMap.put("timestamp", FieldValue.serverTimestamp());
 
@@ -227,6 +239,18 @@ public class NewBookPostActivity extends AppCompatActivity {
 
             }
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected (MenuItem item){
+        int id = item.getItemId();
+
+        if (id == android.R.id.home){
+            //ends activity
+            this.finish();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 }

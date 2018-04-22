@@ -176,30 +176,6 @@ public class SetupActivity extends AppCompatActivity {
                             }
                         });
 
-                        /*user_id = firebaseAuth.getCurrentUser().getUid();
-                        String university_id = firebaseAuth.getCurrentUser().getUid();
-
-                        StorageReference image_path = storageReference.child("profile_images").child(user_id + ".jpg").child(university_id);
-                        image_path.putFile(mainImageURI).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-
-                                if (task.isSuccessful()) {
-
-                                    storeFirestore(task, user_name, University_name);
-
-
-                                } else {
-
-                                    String error = task.getException().getMessage();
-                                    Toast.makeText(SetupActivity.this, "IMAGE Error : " + error, Toast.LENGTH_LONG).show();
-
-                                    setupProgress.setVisibility(View.INVISIBLE);
-
-                                }
-                            }
-                        });*/
-
                     } else {
 
                         storeFirestore(null, user_name, University_name);

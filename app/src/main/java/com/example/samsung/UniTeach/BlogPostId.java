@@ -3,7 +3,6 @@ package com.example.samsung.UniTeach;
 import android.support.annotation.NonNull;
 
 import com.google.firebase.firestore.Exclude;
-//import io.reactivex.annotations.NonNull;
 
 public class BlogPostId {
 

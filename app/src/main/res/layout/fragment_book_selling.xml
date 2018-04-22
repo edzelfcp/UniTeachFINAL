@@ -1,25 +1,27 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.samsung.UniTeach.BookSellingFragment">
+    tools:context="com.example.samsung.UniTeach.BookSellingFragment2">
 
     <!-- TODO: Update blank fragment layout -->
-    <GridView
-        android:id="@+id/tutor_grid_view"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/book_selling_grid_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true" />
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/add_new_book"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-
-        android:columnWidth="100dp"
-        android:gravity="center"
-
-        android:horizontalSpacing="10dp"
-        android:verticalSpacing="10dp"
-
-        android:numColumns="2"
-        android:stretchMode="columnWidth" />
+        android:layout_marginBottom="22dp"
+        android:layout_marginEnd="20dp"
+        android:clickable="true"
+        android:src="@mipmap/add_btn" android:focusable="true" />
 
 </RelativeLayout>

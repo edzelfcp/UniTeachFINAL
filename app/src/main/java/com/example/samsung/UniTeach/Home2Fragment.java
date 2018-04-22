@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,8 +12,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -25,7 +28,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Home2Fragment extends Fragment{
+public class Home2Fragment extends Fragment implements View.OnClickListener{
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -38,11 +41,11 @@ public class Home2Fragment extends Fragment{
 
     private TutorFragment.OnFragmentInteractionListener mListener;
 
-    //add button
-    private FloatingActionButton addPostBtn;
-
     private RecyclerView blog_list_view;
     private List<BlogPost> blog_list;
+    private List<User> user_list;
+
+    private FloatingActionButton addNewPost;
 
     private FirebaseFirestore firebaseFirestore;
     private FirebaseAuth firebaseAuth;
@@ -78,24 +81,16 @@ public class Home2Fragment extends Fragment{
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home2, container, false);
 
-        //delete this Button test
-        Button test = (Button) view.findViewById(R.id.add_post_btn);
-
-        test.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent newPostIntent = new Intent(getActivity(), NewPostActivity.class);
-                startActivity(newPostIntent);
-            }
-        });
+        addNewPost = view.findViewById(R.id.add_new_post);
+        addNewPost.setOnClickListener(this);
 
         blog_list = new ArrayList<>();
+        user_list = new ArrayList<>();
         blog_list_view = view.findViewById(R.id.blog_list_view);
 
         firebaseAuth = FirebaseAuth.getInstance();
 
-        blogRecyclerAdapter = new BlogRecyclerAdapter(blog_list);
+        blogRecyclerAdapter = new BlogRecyclerAdapter(blog_list, user_list);
         blog_list_view.setLayoutManager(new LinearLayoutManager(container.getContext()));
         blog_list_view.setAdapter(blogRecyclerAdapter);
         //new codes
@@ -136,6 +131,7 @@ public class Home2Fragment extends Fragment{
 
                             lastVisible = documentSnapshots.getDocuments().get(documentSnapshots.size() - 1);
                             blog_list.clear();
+                            user_list.clear();
                         }
 
                         for (DocumentChange doc : documentSnapshots.getDocumentChanges()) {
@@ -143,17 +139,35 @@ public class Home2Fragment extends Fragment{
                             if (doc.getType() == DocumentChange.Type.ADDED) {
 
                                 String blogPostId = doc.getDocument().getId();
-                                BlogPost blogPost = doc.getDocument().toObject(BlogPost.class).withId(blogPostId);
+                                final BlogPost blogPost = doc.getDocument().toObject(BlogPost.class).withId(blogPostId);
 
-                                if (FirstPageFirstLoad) {
+                                //update - reduce loading capacity
+                                String blogUserId = doc.getDocument().getString("user_id");
+                                firebaseFirestore.collection("Users").document(blogUserId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
 
-                                    blog_list.add(blogPost);
+                                        if(task.isSuccessful()){
 
-                                } else {
+                                            User user = task.getResult().toObject(User.class);
+                                            if (FirstPageFirstLoad) {
 
-                                    blog_list.add(0, blogPost);
-                                }
-                                blogRecyclerAdapter.notifyDataSetChanged();
+                                                user_list.add(user);
+                                                blog_list.add(blogPost);
+
+                                            } else {
+
+                                                user_list.add(0, user);
+                                                blog_list.add(0, blogPost);
+                                            }
+
+                                            blogRecyclerAdapter.notifyDataSetChanged();
+                                        }
+
+                                    }
+
+                                });
+
                             }
                         }
 
@@ -190,10 +204,26 @@ public class Home2Fragment extends Fragment{
                             if (doc.getType() == DocumentChange.Type.ADDED) {
 
                                 String blogPostId = doc.getDocument().getId();
-                                BlogPost blogPost = doc.getDocument().toObject(BlogPost.class).withId(blogPostId);
-                                blog_list.add(blogPost);
+                                final BlogPost blogPost = doc.getDocument().toObject(BlogPost.class).withId(blogPostId);
+                                String blogUserId = doc.getDocument().getString("user_id");
 
-                                blogRecyclerAdapter.notifyDataSetChanged();
+                                firebaseFirestore.collection("Users").document(blogUserId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+                                        if(task.isSuccessful()){
+
+                                            User user = task.getResult().toObject(User.class);
+
+                                            user_list.add(user);
+                                            blog_list.add(blogPost);
+
+                                            blogRecyclerAdapter.notifyDataSetChanged();
+                                        }
+
+                                    }
+
+                                });
                             }
                         }
                     }
@@ -226,30 +256,17 @@ public class Home2Fragment extends Fragment{
         mListener = null;
     }
 
-    /*@Override
+    @Override
     public void onClick(View v) {
-        addPostBtn = findViewById(R.id.add_post_btn);
-        addPostBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        if (v == addNewPost) {
+            Intent newPostIntent = new Intent(getActivity(), NewPostActivity.class);
+            startActivity(newPostIntent);
 
-                Intent newPostIntent = new Intent(NewPostActivity.class, Home2Fragment.this);
-                startActivity(newPostIntent);
+        } else {
+            Toast.makeText(getActivity(), "Error ", Toast.LENGTH_SHORT).show();
+        }
+    }
 
-            }
-        });
-    }*/
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);

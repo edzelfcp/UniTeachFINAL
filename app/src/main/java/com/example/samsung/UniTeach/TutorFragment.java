@@ -1,23 +1,32 @@
 package com.example.samsung.UniTeach;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link TutorFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link TutorFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class TutorFragment extends Fragment {
+public class TutorFragment extends Fragment implements View.OnClickListener{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -29,18 +38,23 @@ public class TutorFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
+    private RecyclerView tutor_list_view;
+    private List<TutorPost> tutor_list;
+
+    private FloatingActionButton addNewTutor;
+
+    private FirebaseFirestore firebaseFirestore;
+    private FirebaseAuth firebaseAuth;
+    private TutorRecyclerAdapter tutorRecyclerAdapter;
+
+    private DocumentSnapshot lastVisible;
+    private Boolean FirstPageFirstLoad = true;
+
+
     public TutorFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment TutorFragment.
-     */
     // TODO: Rename and change types and number of parameters
     public static TutorFragment newInstance(String param1, String param2) {
         TutorFragment fragment = new TutorFragment();
@@ -64,7 +78,118 @@ public class TutorFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_tutor, container, false);
+        View view = inflater.inflate(R.layout.fragment_tutor, container, false);
+
+        addNewTutor = view.findViewById(R.id.add_new_tutor);
+        addNewTutor.setOnClickListener(this);
+
+        tutor_list = new ArrayList<>();
+        tutor_list_view = view.findViewById(R.id.tutor_list_view);
+
+        tutorRecyclerAdapter = new TutorRecyclerAdapter(tutor_list);
+
+
+        tutor_list_view.setLayoutManager(new LinearLayoutManager(container.getContext()));
+        tutor_list_view.setAdapter(tutorRecyclerAdapter);
+
+        tutor_list_view.setHasFixedSize(true);
+
+        firebaseAuth = FirebaseAuth.getInstance();
+
+        if (firebaseAuth.getCurrentUser() != null) {
+
+            firebaseFirestore = FirebaseFirestore.getInstance();
+
+            tutor_list_view.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                    super.onScrolled(recyclerView, dx, dy);
+
+                    Boolean reachedBottom = !recyclerView.canScrollVertically(1);
+
+                    if (reachedBottom) {
+
+                        loadMorePost();
+
+                    }
+                }
+            });
+
+            Query firstQuery = firebaseFirestore.collection("Tutors").orderBy("timestamp", Query.Direction.DESCENDING).limit(3);
+            firstQuery.addSnapshotListener(getActivity(), new EventListener<QuerySnapshot>() {
+                @Override
+                public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
+
+                    if (!documentSnapshots.isEmpty()) {
+
+                        if (FirstPageFirstLoad) {
+
+                            lastVisible = documentSnapshots.getDocuments().get(documentSnapshots.size() - 1);
+                            tutor_list.clear();
+                        }
+
+                        for (DocumentChange doc : documentSnapshots.getDocumentChanges()) {
+
+                            if (doc.getType() == DocumentChange.Type.ADDED) {
+
+                                String tutorPostId = doc.getDocument().getId();
+                                TutorPost tutorPost = doc.getDocument().toObject(TutorPost.class).withId(tutorPostId);
+
+                                if (FirstPageFirstLoad) {
+
+                                    tutor_list.add(tutorPost);
+
+                                } else {
+
+                                    tutor_list.add(0, tutorPost);
+                                }
+
+                                tutorRecyclerAdapter.notifyDataSetChanged();
+                            }
+                        }
+
+                        FirstPageFirstLoad = false;
+                    }
+                }
+
+            });
+        }
+
+        return view;
+    }
+
+
+    public void loadMorePost() {
+
+        if(firebaseAuth.getCurrentUser() != null) {
+
+            Query nextQuery = firebaseFirestore.collection("Tutors")
+                    .orderBy("timestamp", Query.Direction.DESCENDING)
+                    .startAfter(lastVisible)
+                    .limit(3);
+
+            nextQuery.addSnapshotListener(getActivity(), new EventListener<QuerySnapshot>() {
+                @Override
+                public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
+
+                    if (!documentSnapshots.isEmpty()) {
+
+                        lastVisible = documentSnapshots.getDocuments().get(documentSnapshots.size() - 1);
+                        for (DocumentChange doc : documentSnapshots.getDocumentChanges()) {
+
+                            if (doc.getType() == DocumentChange.Type.ADDED) {
+
+                                String tutorPostId = doc.getDocument().getId();
+                                TutorPost tutorPost = doc.getDocument().toObject(TutorPost.class).withId(tutorPostId);
+                                tutor_list.add(tutorPost);
+
+                                tutorRecyclerAdapter.notifyDataSetChanged();
+                            }
+                        }
+                    }
+                }
+            });
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -91,16 +216,17 @@ public class TutorFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
+    @Override
+    public void onClick(View v) {
+        if (v == addNewTutor) {
+            Intent newPostIntent = new Intent(getActivity(), TutorApplyActivity.class);
+            startActivity(newPostIntent);
+
+        } else {
+            Toast.makeText(getActivity(), "Error ", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
