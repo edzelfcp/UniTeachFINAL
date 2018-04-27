@@ -214,7 +214,6 @@ public class BlogRecyclerAdapter extends RecyclerView.Adapter<BlogRecyclerAdapte
         private TextView blogLikeCount;
 
         private ImageView blogCommentBtn;
-
         private Button blogDeleteBtn;
 
         public ViewHolder(View itemView){
@@ -238,7 +237,7 @@ public class BlogRecyclerAdapter extends RecyclerView.Adapter<BlogRecyclerAdapte
             blogImageView = mView.findViewById(R.id.blog_image);
 
             RequestOptions requestOptions = new RequestOptions();
-            requestOptions.placeholder(R.drawable.web_hi_res_512);
+            requestOptions.placeholder(R.drawable.addnewpost3);
 
             Glide.with(context).applyDefaultRequestOptions(requestOptions).load(downloadUri).thumbnail(
                     Glide.with(context).load(thumbUri)

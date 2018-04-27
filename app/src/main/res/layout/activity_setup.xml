@@ -97,5 +97,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/setupToolbar" />
 
+    <Button
+        android:id="@+id/add_new_photo"
+        android:layout_width="46dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="104dp"
+        android:layout_marginTop="164dp"
+        android:background="@mipmap/new_photo_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/setup_progress" />
+
 
 </android.support.constraint.ConstraintLayout>

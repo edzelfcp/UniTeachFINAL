@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -53,6 +54,7 @@ public class CommentsActivity extends AppCompatActivity {
         commentToolbar = findViewById(R.id.comment_toolbar);
         setSupportActionBar(commentToolbar);
         getSupportActionBar().setTitle("Comments");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
@@ -127,5 +129,17 @@ public class CommentsActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected (MenuItem item){
+        int id = item.getItemId();
+
+        if (id == android.R.id.home){
+            //ends activity
+            this.finish();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -6,11 +6,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
 
@@ -18,10 +22,20 @@ import java.util.List;
 public class BookRecyclerAdapter extends RecyclerView.Adapter<BookRecyclerAdapter.ViewHolder> {
 
     public List<BookPost> book_list;
+    public List<User> user_list;
     public Context context;
+    public String desc_data;
+    public String edition_desc;
+    public String price_desc;
+    public String image_url;
 
-    public BookRecyclerAdapter(List<BookPost> book_list) {
+
+    private FirebaseFirestore firebaseFirestore;
+    private FirebaseAuth firebaseAuth;
+
+    public BookRecyclerAdapter(List<BookPost> book_list, List<User> user_list) {
         this.book_list = book_list;
+        this.user_list = user_list;
     }
 
     @Override
@@ -29,34 +43,67 @@ public class BookRecyclerAdapter extends RecyclerView.Adapter<BookRecyclerAdapte
         //BookRecyclerAdapter.ViewHolder onCreateViewHolder
 
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.book_list_item, parent, false);
+        firebaseFirestore = FirebaseFirestore.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
         context = parent.getContext();
 
         return new BookRecyclerAdapter.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
 
         holder.setIsRecyclable(false);
+        final String bookPostId = book_list.get(position).BookPostId;
+        final String currentUserId = firebaseAuth.getCurrentUser().getUid();
+
         //this is for getter and setter
-        String desc_data = book_list.get(position).getDescription();
+        desc_data = book_list.get(position).getDescription();
         holder.setDescription(desc_data);
 
-        String edition_desc= book_list.get(position).getEdition();
+        edition_desc= book_list.get(position).getEdition();
         holder.setEdition(edition_desc);
 
-        String price_desc= book_list.get(position).getPrice();
+        price_desc= book_list.get(position).getPrice();
         holder.setPrice(price_desc);
 
-        String image_url = book_list.get(position).getImage_url();
+        image_url = book_list.get(position).getImage_url();
         String thumbUri = book_list.get(position).getImage_thumb();
         holder.setBookImage(image_url, thumbUri);
+
+        //delete button
+       //String book_user_id = book_list.get(position).getUser_id();
+        //if(book_user_id.equals(currentUserId)){
+       //     holder.bookdeletebtn.setVisibility(View.VISIBLE);
+        //}
 
         holder.bookImageView.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 Intent clickPost = new Intent(context, clickBookActivity.class);
+                //clickPost.putExtra("id",desc_data);
+                clickPost.putExtra("title", desc_data);
+                clickPost.putExtra("edition", edition_desc);
+                clickPost.putExtra("price", price_desc);
+                clickPost.putExtra("image_url", image_url);
+
                 context.startActivity(clickPost);
+            }
+        });
+
+
+
+        holder.bookdeletebtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                firebaseFirestore.collection("Books").document(bookPostId).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                        book_list.remove(position);
+                        user_list.remove(position);
+                    }
+                });
             }
         });
     }
@@ -73,6 +120,8 @@ public class BookRecyclerAdapter extends RecyclerView.Adapter<BookRecyclerAdapte
 
         private ImageView bookImageView;
 
+        private Button bookdeletebtn;
+
         private TextView bdescView;
         private TextView editionView;
         private TextView priceView;
@@ -81,6 +130,8 @@ public class BookRecyclerAdapter extends RecyclerView.Adapter<BookRecyclerAdapte
         public ViewHolder(View itemView){
             super(itemView);
             mView = itemView;
+
+            bookdeletebtn = mView.findViewById(R.id.book_delete_btn);
         }
 
         public void setDescription(String descText){
@@ -114,6 +165,8 @@ public class BookRecyclerAdapter extends RecyclerView.Adapter<BookRecyclerAdapte
                     Glide.with(context).load(thumbUri)
             ).into(bookImageView);
         }
+
+
 
     }
 }

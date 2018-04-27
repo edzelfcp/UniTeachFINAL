@@ -79,8 +79,12 @@ public class TutorRecyclerAdapter extends RecyclerView.Adapter<TutorRecyclerAdap
         public ViewHolder(View itemView) {
             super(itemView);
             mView = itemView;
-            //idk what for
-            //Button seeTutor = mView.findViewById(R.id.tutorViewBtn);
+        }
+
+        public void setTutorName(String tutorName) {
+
+            tutorUserName = mView.findViewById(R.id.tutorName);
+            tutorUserName.setText(tutorName);
         }
 
         public void setTutorImage(String downloadUri, String thumbUri){
@@ -95,11 +99,7 @@ public class TutorRecyclerAdapter extends RecyclerView.Adapter<TutorRecyclerAdap
             ).into(tutorImageView);
         }
 
-        public void setTutorName(String tutorName) {
 
-            tutorUserName = mView.findViewById(R.id.tutorName);
-            tutorUserName.setText(tutorName);
-        }
 
         /*public void setUserData(String name,String image){
 

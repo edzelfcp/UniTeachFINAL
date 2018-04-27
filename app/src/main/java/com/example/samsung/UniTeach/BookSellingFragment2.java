@@ -42,6 +42,7 @@ public class BookSellingFragment2 extends Fragment implements View.OnClickListen
 
     private RecyclerView book_list_view;
     private List<BookPost> book_list;
+    private List<User> user_list;
 
     private FirebaseFirestore firebaseFirestore;
     private FirebaseAuth firebaseAuth;
@@ -83,9 +84,11 @@ public class BookSellingFragment2 extends Fragment implements View.OnClickListen
         addNewBook.setOnClickListener(this);
 
         book_list = new ArrayList<>();
+        user_list = new ArrayList<>();
+
         book_list_view = view.findViewById(R.id.book_selling_grid_view);
 
-        bookRecyclerAdapter = new BookRecyclerAdapter(book_list);
+        bookRecyclerAdapter = new BookRecyclerAdapter(book_list, user_list);
 
         book_list_view.setLayoutManager(new LinearLayoutManager(container.getContext()));
         book_list_view.setAdapter(bookRecyclerAdapter);

@@ -185,9 +185,9 @@ public class TutorApplyActivity extends AppCompatActivity {
                                         tutorMap.put("image_url", downloadUri);
                                         tutorMap.put("image_thumb", downloadthumbUri);
 
+                                        tutorMap.put("tutor_name", tutorName);
                                         tutorMap.put("major", tutorMajor);
                                         tutorMap.put("subjects", tutorSubjects);
-                                        tutorMap.put("tutor_name", tutorName);
                                         tutorMap.put("tutor_email", tutorMail);
                                         tutorMap.put("uni_name", tutorUni);
 
@@ -225,7 +225,6 @@ public class TutorApplyActivity extends AppCompatActivity {
 
 
                             } else {
-
                                 applyProgress.setVisibility(View.INVISIBLE);
                             }
                         }

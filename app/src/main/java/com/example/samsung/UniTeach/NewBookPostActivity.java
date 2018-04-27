@@ -55,7 +55,7 @@ public class NewBookPostActivity extends AppCompatActivity {
     private ProgressBar newBookProgress;
 
     private StorageReference storageReference;
-    private FirebaseFirestore firebaseFirestore;
+    private  FirebaseFirestore firebaseFirestore;
     private FirebaseAuth firebaseAuth;
 
     private String current_user_id;
@@ -173,7 +173,7 @@ public class NewBookPostActivity extends AppCompatActivity {
                                         postMap.put("image_url", downloadUri);
                                         postMap.put("image_thumb", downloadthumbUri);
 
-                                        postMap.put("title", description);
+                                        postMap.put("description", description);
                                         postMap.put("edition", edition);
                                         postMap.put("price", price);
 
@@ -193,6 +193,7 @@ public class NewBookPostActivity extends AppCompatActivity {
 
 
                                                 } else {
+
 
                                                 }
 

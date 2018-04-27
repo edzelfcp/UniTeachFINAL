@@ -3,17 +3,18 @@ package com.example.samsung.UniTeach;
 
 public class TutorPost extends TutorPostId {
 
-    public String image_url, image_thumb, tutorName;
+    public String tutorName, image_url, image_thumb;
     //public Date timestamp;
 
     public TutorPost(){
     }
 
     public TutorPost(String tutorName, String image_url, String image_thumb) {
+        this.tutorName = tutorName;
         this.image_url = image_url;
         this.image_thumb = image_thumb;
 
-        this.tutorName = tutorName;
+
         //this.timestamp = timestamp;
         /*this.tutorSubjects = tutorSubjects;
         this.tutorMail = tutorMail;

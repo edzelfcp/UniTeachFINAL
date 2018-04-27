@@ -54,6 +54,7 @@ public class SetupActivity extends AppCompatActivity {
     private EditText setupUniversityName;
     private Button setupBtn;
     private ProgressBar setupProgress;
+    private Button addNewPhoto;
 
     private StorageReference storageReference;
     private FirebaseAuth firebaseAuth;
@@ -82,6 +83,8 @@ public class SetupActivity extends AppCompatActivity {
         setupUniversityName = findViewById(R.id.setup_University);
         setupBtn = findViewById(R.id.setup_btn);
         setupProgress = findViewById(R.id.setup_progress);
+
+        addNewPhoto = findViewById(R.id.add_new_photo);
 
         setupProgress.setVisibility(View.VISIBLE);
         setupBtn.setEnabled(false);
@@ -194,6 +197,31 @@ public class SetupActivity extends AppCompatActivity {
                     if (ContextCompat.checkSelfPermission(SetupActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
 
                         Toast.makeText(SetupActivity.this, "Permission Denied", Toast.LENGTH_LONG).show();
+                        ActivityCompat.requestPermissions(SetupActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+
+                    } else {
+
+                        BringImagePicker();
+
+                    }
+
+                } else {
+
+                    BringImagePicker();
+
+                }
+            }
+        });
+
+        addNewPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+                    if (ContextCompat.checkSelfPermission(SetupActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+
+                        Toast.makeText(SetupActivity.this, "Permission Granted", Toast.LENGTH_LONG).show();
                         ActivityCompat.requestPermissions(SetupActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
 
                     } else {
