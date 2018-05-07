@@ -47,6 +47,7 @@ public class NewBookPostActivity extends AppCompatActivity {
     private EditText newBookDesc;
     private EditText newBookPrice;
     private EditText newBookEdition;
+    private EditText newBookEmail;
 
     private Button newBookBtn;
 
@@ -83,6 +84,7 @@ public class NewBookPostActivity extends AppCompatActivity {
         newBookDesc = findViewById(R.id.new_book_name);
         newBookEdition = findViewById(R.id.new_book_edition);
         newBookPrice = findViewById(R.id.new_book_price);
+        newBookEmail = findViewById(R.id.new_email);
 
         newBookBtn = findViewById(R.id.book_post_btn);
         newBookProgress = findViewById(R.id.new_book_progress);
@@ -106,8 +108,9 @@ public class NewBookPostActivity extends AppCompatActivity {
                 final String description = newBookDesc.getText().toString();
                 final String edition = newBookEdition.getText().toString();
                 final String price = newBookPrice.getText().toString();
+                final String email = newBookEmail.getText().toString();
 
-                if (!TextUtils.isEmpty(description) && !TextUtils.isEmpty(edition) && !TextUtils.isEmpty(price)
+                if (!TextUtils.isEmpty(description) && !TextUtils.isEmpty(edition) && !TextUtils.isEmpty(price) && !TextUtils.isEmpty(email)
                         && bookImageUri != null) {
 
                     newBookProgress.setVisibility(View.VISIBLE);
@@ -176,6 +179,7 @@ public class NewBookPostActivity extends AppCompatActivity {
                                         postMap.put("description", description);
                                         postMap.put("edition", edition);
                                         postMap.put("price", price);
+                                        postMap.put("email", email);
 
                                         postMap.put("user_id", current_user_id);
                                         postMap.put("timestamp", FieldValue.serverTimestamp());

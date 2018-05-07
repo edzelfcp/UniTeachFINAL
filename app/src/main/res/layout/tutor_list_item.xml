@@ -5,15 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+
     <android.support.v7.widget.CardView
         android:id="@+id/main_tutor_post"
         android:layout_width="0dp"
-        android:layout_height="181dp"
+        android:layout_height="220dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="44dp"
         android:background="@color/colorPrimary"
         android:padding="20dp"
+        app:cardBackgroundColor="@color/cardViewColor"
+        app:cardElevation="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,50 +26,149 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/tutorImage"
-                android:layout_width="181dp"
-                android:layout_height="170dp"
-                android:layout_marginBottom="24dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="24dp"
-                android:src="@drawable/web_hi_res_512"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/tutorViewBtn"
-                app:layout_constraintHorizontal_bias="0.078"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <Button
-                android:id="@+id/tutorViewBtn"
-                android:layout_width="92dp"
-                android:layout_height="90dp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp"
-                android:background="@mipmap/see_btn"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="1.0" />
-
             <TextView
                 android:id="@+id/tutorName"
-                android:layout_width="wrap_content"
-                android:layout_height="55dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:text="@string/tutor_name"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppCompat"
                 android:textColor="@android:color/black"
                 android:textSize="26sp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.17"
                 app:layout_constraintStart_toEndOf="@+id/tutorImage"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.21" />
+                app:layout_constraintVertical_bias="0.207" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/tutorImage"
+                android:layout_width="166dp"
+                android:layout_height="155dp"
+                android:layout_marginBottom="24dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:src="@drawable/web_hi_res_512"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/tutorMajor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="8dp"
+                android:text="Tutor Major"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tutorUni"
+                app:layout_constraintTop_toBottomOf="@+id/tutorImage"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/tutorUni"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:text="Tutor University"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tutorImage" />
+
+            <TextView
+                android:id="@+id/tutorEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="21dp"
+                android:layout_marginEnd="116dp"
+                android:layout_marginTop="8dp"
+                android:text="Tutor Email"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/tutor_approval_btn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="44dp"
+                app:layout_constraintStart_toEndOf="@+id/tutorImage"
+                app:layout_constraintTop_toBottomOf="@+id/tutorName"
+                app:srcCompat="@mipmap/approve_icon" />
+
+            <TextView
+                android:id="@+id/tutor_approval_count"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:layout_marginStart="168dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/tutor_approval"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tutor_approval_btn"
+                app:layout_constraintVertical_bias="0.142" />
+
+            <ImageView
+                android:id="@+id/tutor_disapproval_btn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="24dp"
+                android:layout_marginTop="44dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tutorName"
+                app:srcCompat="@mipmap/down_icon" />
+
+            <TextView
+                android:id="@+id/tutor_disapproval_count"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/tutor_disapproval"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tutor_disapproval_btn"
+                app:layout_constraintVertical_bias="0.062" />
+
+            <TextView
+                android:id="@+id/tutorSub"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="tutorSubs"
+                android:visibility="invisible"
+                app:layout_constraintStart_toEndOf="@+id/tutorImage"
+                app:layout_constraintTop_toBottomOf="@+id/tutorName" />
+
+            <TextView
+                android:id="@+id/tutorVerified"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:text="Tutor Verified"
+                android:textStyle="italic"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.929"
+                app:layout_constraintStart_toEndOf="@+id/tutorImage"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </android.support.constraint.ConstraintLayout>
 

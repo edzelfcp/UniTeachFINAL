@@ -104,6 +104,8 @@ public class BookSellingFragment2 extends Fragment implements View.OnClickListen
             book_list_view.addOnScrollListener(new RecyclerView.OnScrollListener() {
                 @Override
                 public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                    //System.out.println(dx);
+                    //System.out.println(dy);
                     super.onScrolled(recyclerView, dx, dy);
 
                     Boolean reachedBottom = !recyclerView.canScrollVertically(1);
@@ -116,6 +118,7 @@ public class BookSellingFragment2 extends Fragment implements View.OnClickListen
                 }
             });
 
+            //add .limit(3);
             Query firstQuery = firebaseFirestore.collection("Books").orderBy("timestamp", Query.Direction.DESCENDING).limit(3);
             firstQuery.addSnapshotListener(getActivity(), new EventListener<QuerySnapshot>() {
                 @Override
@@ -139,6 +142,8 @@ public class BookSellingFragment2 extends Fragment implements View.OnClickListen
                                 if (FirstPageFirstLoad) {
 
                                     book_list.add(blogPost);
+
+                                    //bookRecyclerAdapter.notifyDataSetChanged();
 
                                 } else {
 
@@ -164,8 +169,7 @@ public class BookSellingFragment2 extends Fragment implements View.OnClickListen
 
             Query nextQuery = firebaseFirestore.collection("Books")
                     .orderBy("timestamp", Query.Direction.DESCENDING)
-                    .startAfter(lastVisible)
-                    .limit(3);
+                    .startAfter(lastVisible);
 
             nextQuery.addSnapshotListener(getActivity(), new EventListener<QuerySnapshot>() {
                 @Override

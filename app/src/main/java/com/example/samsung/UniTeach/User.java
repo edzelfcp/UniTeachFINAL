@@ -3,12 +3,21 @@ package com.example.samsung.UniTeach;
 
 public class User {
 
-    public String image, name;
+    public String image;
+    public String name;
 
-    public User(){
 
+    public String university;
+
+    public User(){}
+
+    public String getUniversity() {
+        return university;
     }
 
+    public void setUniversity(String university) {
+        this.university = university;
+    }
 
     public String getImage() {
         return image;
@@ -17,6 +26,7 @@ public class User {
     public void setImage(String image) {
         this.image = image;
     }
+
     public String getName() {
         return name;
     }
@@ -25,9 +35,10 @@ public class User {
         this.name = name;
     }
 
-    public User(String image, String name){
+    public User(String image, String name, String university){
         this.image = image;
         this.name = name;
+        this.university = university;
     }
 
 }

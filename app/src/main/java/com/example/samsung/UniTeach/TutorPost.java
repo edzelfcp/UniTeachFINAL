@@ -3,23 +3,77 @@ package com.example.samsung.UniTeach;
 
 public class TutorPost extends TutorPostId {
 
-    public String tutorName, image_url, image_thumb;
+    public String tutorName;
+    public String image_url;
+    public String image_thumb;
+
+    public String tutorMajor;
+    public String tutorUni;
+    public String tutorMail;
     //public Date timestamp;
+
+    public String tutorSubjects;
+
+    public String tutorVerified;
 
     public TutorPost(){
     }
 
-    public TutorPost(String tutorName, String image_url, String image_thumb) {
+
+
+    public TutorPost(String tutorVerified, String tutorName, String image_url, String image_thumb, String tutorMajor, String tutorUni, String tutorMail, String tutorSubjects) {
+        this.tutorVerified = tutorVerified;
+
         this.tutorName = tutorName;
         this.image_url = image_url;
         this.image_thumb = image_thumb;
 
-
-        //this.timestamp = timestamp;
-        /*this.tutorSubjects = tutorSubjects;
-        this.tutorMail = tutorMail;
+        this.tutorMajor = tutorMajor;
         this.tutorUni = tutorUni;
-        this.tutorMajor = tutorMajor;*/
+        this.tutorMail = tutorMail;
+
+        this.tutorSubjects = tutorSubjects;
+    }
+
+    public String getTutorVerified() {
+        return tutorVerified;
+    }
+
+    public void setTutorVerified(String tutorVerified) {
+        this.tutorVerified = tutorVerified;
+    }
+
+
+    public String getTutorSubjects() {
+        return tutorSubjects;
+    }
+
+    public void setTutorSubjects(String tutorSubjects) {
+        this.tutorSubjects = tutorSubjects;
+    }
+
+    public String getTutorMajor() {
+        return tutorMajor;
+    }
+
+    public void setTutorMajor(String tutorMajor) {
+        this.tutorMajor = tutorMajor;
+    }
+
+    public String getTutorUni() {
+        return tutorUni;
+    }
+
+    public void setTutorUni(String tutorUni) {
+        this.tutorUni = tutorUni;
+    }
+
+    public String getTutorMail() {
+        return tutorMail;
+    }
+
+    public void setTutorMail(String tutorMail) {
+        this.tutorMail = tutorMail;
     }
 
     public String getTutorName(){

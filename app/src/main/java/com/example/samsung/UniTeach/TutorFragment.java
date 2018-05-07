@@ -1,18 +1,18 @@
 package com.example.samsung.UniTeach;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -25,8 +25,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-
-public class TutorFragment extends Fragment implements View.OnClickListener{
+//implements View.OnClickListener
+public class TutorFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -40,8 +40,9 @@ public class TutorFragment extends Fragment implements View.OnClickListener{
 
     private RecyclerView tutor_list_view;
     private List<TutorPost> tutor_list;
+    private List<User> user_list;
 
-    private FloatingActionButton addNewTutor;
+    //private FloatingActionButton addNewTutor;
 
     private FirebaseFirestore firebaseFirestore;
     private FirebaseAuth firebaseAuth;
@@ -80,21 +81,23 @@ public class TutorFragment extends Fragment implements View.OnClickListener{
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_tutor, container, false);
 
-        addNewTutor = view.findViewById(R.id.add_new_tutor);
-        addNewTutor.setOnClickListener(this);
+        //addNewTutor = view.findViewById(R.id.add_new_tutor);
+        //addNewTutor.setOnClickListener(this);
 
         tutor_list = new ArrayList<>();
+        user_list = new ArrayList<>();
         tutor_list_view = view.findViewById(R.id.tutor_list_view);
 
-        tutorRecyclerAdapter = new TutorRecyclerAdapter(tutor_list);
+        tutorRecyclerAdapter = new TutorRecyclerAdapter(tutor_list, user_list);
 
+        firebaseAuth = FirebaseAuth.getInstance();
 
         tutor_list_view.setLayoutManager(new LinearLayoutManager(container.getContext()));
         tutor_list_view.setAdapter(tutorRecyclerAdapter);
 
         tutor_list_view.setHasFixedSize(true);
 
-        firebaseAuth = FirebaseAuth.getInstance();
+
 
         if (firebaseAuth.getCurrentUser() != null) {
 
@@ -126,6 +129,7 @@ public class TutorFragment extends Fragment implements View.OnClickListener{
 
                             lastVisible = documentSnapshots.getDocuments().get(documentSnapshots.size() - 1);
                             tutor_list.clear();
+                            user_list.clear();
                         }
 
                         for (DocumentChange doc : documentSnapshots.getDocumentChanges()) {
@@ -133,18 +137,33 @@ public class TutorFragment extends Fragment implements View.OnClickListener{
                             if (doc.getType() == DocumentChange.Type.ADDED) {
 
                                 String tutorPostId = doc.getDocument().getId();
-                                TutorPost tutorPost = doc.getDocument().toObject(TutorPost.class).withId(tutorPostId);
+                                final TutorPost tutorPost = doc.getDocument().toObject(TutorPost.class).withId(tutorPostId);
 
-                                if (FirstPageFirstLoad) {
+                                //reduce loading capacity
+                                String tutorUserId = doc.getDocument().getString("user_id");
+                                firebaseFirestore.collection("Users").document(tutorUserId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
 
-                                    tutor_list.add(tutorPost);
+                                        if (task.isSuccessful()) {
 
-                                } else {
+                                            User user = task.getResult().toObject(User.class);
+                                            if (FirstPageFirstLoad) {
 
-                                    tutor_list.add(0, tutorPost);
-                                }
+                                                user_list.add(user);
+                                                tutor_list.add(tutorPost);
 
-                                tutorRecyclerAdapter.notifyDataSetChanged();
+                                            } else {
+
+                                                user_list.add(0, user);
+                                                tutor_list.add(0, tutorPost);
+                                            }
+
+                                            tutorRecyclerAdapter.notifyDataSetChanged();
+                                        }
+
+                                    }
+                                });
                             }
                         }
 
@@ -180,10 +199,26 @@ public class TutorFragment extends Fragment implements View.OnClickListener{
                             if (doc.getType() == DocumentChange.Type.ADDED) {
 
                                 String tutorPostId = doc.getDocument().getId();
-                                TutorPost tutorPost = doc.getDocument().toObject(TutorPost.class).withId(tutorPostId);
-                                tutor_list.add(tutorPost);
+                                final TutorPost tutorPost = doc.getDocument().toObject(TutorPost.class).withId(tutorPostId);
+                                String tutorUserId = doc.getDocument().getString("user_id");
 
-                                tutorRecyclerAdapter.notifyDataSetChanged();
+                                firebaseFirestore.collection("Users").document(tutorUserId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+                                        if(task.isSuccessful()){
+
+                                            User user = task.getResult().toObject(User.class);
+
+                                            user_list.add(user);
+                                            tutor_list.add(tutorPost);
+
+                                            tutorRecyclerAdapter.notifyDataSetChanged();
+                                        }
+
+                                    }
+                                });
+
                             }
                         }
                     }
@@ -216,7 +251,7 @@ public class TutorFragment extends Fragment implements View.OnClickListener{
         mListener = null;
     }
 
-    @Override
+    /*@Override
     public void onClick(View v) {
         if (v == addNewTutor) {
             Intent newPostIntent = new Intent(getActivity(), TutorApplyActivity.class);
@@ -225,7 +260,7 @@ public class TutorFragment extends Fragment implements View.OnClickListener{
         } else {
             Toast.makeText(getActivity(), "Error ", Toast.LENGTH_SHORT).show();
         }
-    }
+    }*/
 
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name

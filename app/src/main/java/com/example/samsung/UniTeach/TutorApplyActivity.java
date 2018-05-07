@@ -185,11 +185,11 @@ public class TutorApplyActivity extends AppCompatActivity {
                                         tutorMap.put("image_url", downloadUri);
                                         tutorMap.put("image_thumb", downloadthumbUri);
 
-                                        tutorMap.put("tutor_name", tutorName);
-                                        tutorMap.put("major", tutorMajor);
-                                        tutorMap.put("subjects", tutorSubjects);
-                                        tutorMap.put("tutor_email", tutorMail);
-                                        tutorMap.put("uni_name", tutorUni);
+                                        tutorMap.put("tutorName", tutorName);
+                                        tutorMap.put("tutorMajor", tutorMajor);
+                                        tutorMap.put("tutorSubjects", tutorSubjects);
+                                        tutorMap.put("tutorMail", tutorMail);
+                                        tutorMap.put("tutorUni", tutorUni);
 
                                         tutorMap.put("user_id", user_id);
                                         tutorMap.put("timestamp", FieldValue.serverTimestamp());

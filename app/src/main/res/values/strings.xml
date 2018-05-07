@@ -56,4 +56,7 @@
     <string name="book_price">Book Price</string>
     <string name="new_book_btn">Add New Book</string>
     <string name="tutor_name">Tutor Name</string>
+    <string name="tutor_approval">tutor approve</string>
+    <string name="tutor_disapproval">tutor disapprove</string>
+
 </resources>

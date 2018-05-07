@@ -23,6 +23,7 @@ public class MessageBookSeller extends AppCompatActivity {
         setContentView(R.layout.activity_message_book_seller);
 
         bookmessage = findViewById(R.id.Book_Message);
+
         setSupportActionBar(bookmessage);
         //getSupportActionBar().setTitle("Book Details");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

@@ -2,17 +2,27 @@ package com.example.samsung.UniTeach;
 
 public class BookPost extends BookPostId{
 
-    public String user_id, description, edition, price, image_url, image_thumb;
+    public String user_id, description, edition, price, image_url, image_thumb, email;
 
     public BookPost(){}
 
-    public BookPost (String description, String edition, String price, String image_url, String image_thumb){
+
+    public BookPost (String description, String edition, String price, String image_url, String image_thumb, String email){
+        this.email = email;
         this.user_id = user_id;
         this.description = description;
         this.edition = edition;
         this.price = price;
         this.image_url = image_url;
         this.image_thumb = image_thumb;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getDescription() {

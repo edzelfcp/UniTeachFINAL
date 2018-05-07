@@ -160,10 +160,10 @@ BookSellingFragment2.OnFragmentInteractionListener{
                 startActivity(applyIntent);
                 return true;
 
-            case R.id.action_book_btn:
+            /*case R.id.action_book_btn:
                 Intent newbookIntent = new Intent(MainActivity.this, NewBookPostActivity.class);
                 startActivity(newbookIntent);
-                return true;
+                return true;*/
 
 
             default:

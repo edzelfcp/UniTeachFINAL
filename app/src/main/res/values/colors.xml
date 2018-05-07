@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#2196f3</color>
     <color name="colorPrimaryDark">#0069C0</color>
-    <color name="colorAccent">#F44336</color>
+    <color name="colorAccent">#FDB44B</color>
 
     <color name="whiteforeground">#ffffff</color>
 
@@ -10,5 +10,7 @@
 
     <color name="likeBtnGray">#747474</color>
     <color name="likeBtnAccent">#F44336</color>
+    <color name="cardViewColor">#F5F5F5</color>
+
 
 </resources>

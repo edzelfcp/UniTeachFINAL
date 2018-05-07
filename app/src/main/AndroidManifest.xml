@@ -43,7 +43,8 @@
         <activity android:name=".clickBookActivity" />
         <activity android:name=".clickTutorActivity" />
         <activity android:name=".CommentsActivity" />
-        <activity android:name=".MessageBookSeller"></activity>
+        <activity android:name=".MessageBookSeller" />
+        <activity android:name=".MessageTutor"></activity>
     </application>
 
 </manifest>

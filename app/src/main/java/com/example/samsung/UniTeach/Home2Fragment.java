@@ -110,10 +110,6 @@ public class Home2Fragment extends Fragment implements View.OnClickListener{
 
                     if (reachedBottom) {
 
-                        //once user has reached button of 3, show Toast
-                        //String desc = lastVisible.getString("desc");
-                        //Toast.makeText(container.getContext(), "Reached : " + desc, Toast.LENGTH_SHORT).show();
-
                         loadMorePost();
 
                     }

@@ -38,6 +38,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class BlogRecyclerAdapter extends RecyclerView.Adapter<BlogRecyclerAdapter.ViewHolder> {
 
+    /*final String [] option = {"Delete"};
+    ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.select_dialog_item, option);
+    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    builder.set*/
+
     public List<BlogPost> blog_list;
     public List<User> user_list;
     public Context context;
@@ -59,6 +64,7 @@ public class BlogRecyclerAdapter extends RecyclerView.Adapter<BlogRecyclerAdapte
         context = parent.getContext();
         firebaseFirestore = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
+
         return new ViewHolder(view);
     }
 
@@ -183,6 +189,7 @@ public class BlogRecyclerAdapter extends RecyclerView.Adapter<BlogRecyclerAdapte
                     @Override
                     public void onSuccess(Void aVoid) {
 
+
                         blog_list.remove(position);
                         user_list.remove(position);
                     }
@@ -200,6 +207,8 @@ public class BlogRecyclerAdapter extends RecyclerView.Adapter<BlogRecyclerAdapte
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+
+
         //retrieves image description
         private View mView;
 

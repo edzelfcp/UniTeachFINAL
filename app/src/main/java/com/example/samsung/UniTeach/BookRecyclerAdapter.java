@@ -27,8 +27,8 @@ public class BookRecyclerAdapter extends RecyclerView.Adapter<BookRecyclerAdapte
     public String desc_data;
     public String edition_desc;
     public String price_desc;
+    public String email_desc;
     public String image_url;
-
 
     private FirebaseFirestore firebaseFirestore;
     private FirebaseAuth firebaseAuth;
@@ -47,45 +47,56 @@ public class BookRecyclerAdapter extends RecyclerView.Adapter<BookRecyclerAdapte
         firebaseAuth = FirebaseAuth.getInstance();
         context = parent.getContext();
 
+
         return new BookRecyclerAdapter.ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
 
+        int pass_position = position;
+        String a = String.valueOf(pass_position);
+        System.out.println(a);
+
         holder.setIsRecyclable(false);
         final String bookPostId = book_list.get(position).BookPostId;
         final String currentUserId = firebaseAuth.getCurrentUser().getUid();
 
         //this is for getter and setter
-        desc_data = book_list.get(position).getDescription();
+        desc_data = book_list.get(pass_position).getDescription();
         holder.setDescription(desc_data);
 
-        edition_desc= book_list.get(position).getEdition();
+        edition_desc= book_list.get(pass_position).getEdition();
         holder.setEdition(edition_desc);
 
-        price_desc= book_list.get(position).getPrice();
+        price_desc= book_list.get(pass_position).getPrice();
         holder.setPrice(price_desc);
 
-        image_url = book_list.get(position).getImage_url();
-        String thumbUri = book_list.get(position).getImage_thumb();
+        image_url = book_list.get(pass_position).getImage_url();
+        String thumbUri = book_list.get(pass_position).getImage_thumb();
         holder.setBookImage(image_url, thumbUri);
 
-        //delete button
-       //String book_user_id = book_list.get(position).getUser_id();
-        //if(book_user_id.equals(currentUserId)){
-       //     holder.bookdeletebtn.setVisibility(View.VISIBLE);
-        //}
+        email_desc = book_list.get(pass_position).getEmail();
+        holder.setEmail(email_desc);
 
-        holder.bookImageView.setOnClickListener(new View.OnClickListener(){
+        //delete button
+       String book_user_id = book_list.get(position).getUser_id();
+       if(book_user_id.equals(currentUserId)){
+           holder.bookdeletebtn.setEnabled(true);
+           holder.bookdeletebtn.setVisibility(View.VISIBLE);
+       }
+
+        holder.seeDetails.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 Intent clickPost = new Intent(context, clickBookActivity.class);
                 //clickPost.putExtra("id",desc_data);
+
                 clickPost.putExtra("title", desc_data);
                 clickPost.putExtra("edition", edition_desc);
                 clickPost.putExtra("price", price_desc);
                 clickPost.putExtra("image_url", image_url);
+                clickPost.putExtra("email", email_desc);
 
                 context.startActivity(clickPost);
             }
@@ -93,7 +104,7 @@ public class BookRecyclerAdapter extends RecyclerView.Adapter<BookRecyclerAdapte
 
 
 
-        holder.bookdeletebtn.setOnClickListener(new View.OnClickListener() {
+       holder.bookdeletebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 firebaseFirestore.collection("Books").document(bookPostId).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -108,6 +119,7 @@ public class BookRecyclerAdapter extends RecyclerView.Adapter<BookRecyclerAdapte
         });
     }
 
+
     @Override
     public int getItemCount() {
 
@@ -121,17 +133,25 @@ public class BookRecyclerAdapter extends RecyclerView.Adapter<BookRecyclerAdapte
         private ImageView bookImageView;
 
         private Button bookdeletebtn;
-
         private TextView bdescView;
         private TextView editionView;
         private TextView priceView;
+
+        private TextView emailView;
+
+        private Button seeDetails;
 
 
         public ViewHolder(View itemView){
             super(itemView);
             mView = itemView;
-
             bookdeletebtn = mView.findViewById(R.id.book_delete_btn);
+            seeDetails = mView.findViewById(R.id.see_details_btn);
+        }
+
+        public void setEmail(String email_desc) {
+            emailView = mView.findViewById(R.id.book_email);
+            emailView.setText(email_desc);
         }
 
         public void setDescription(String descText){
