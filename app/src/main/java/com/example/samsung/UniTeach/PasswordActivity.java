@@ -44,7 +44,7 @@ public class PasswordActivity extends AppCompatActivity {
                 String useremail = passwordEmail.getText().toString().trim();
 
                 if(useremail.equals("")){
-                    Toast.makeText(PasswordActivity.this, "Enter valid registered email", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PasswordActivity.this, "Enter valid registered email", Toast.LENGTH_LONG).show();
 
                 } else {
 
@@ -54,13 +54,13 @@ public class PasswordActivity extends AppCompatActivity {
 
                             if(task.isSuccessful()){
 
-                                Toast.makeText(PasswordActivity.this, "Reset email sent", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(PasswordActivity.this, "Reset email sent", Toast.LENGTH_LONG).show();
                                 finish();
                                 startActivity(new Intent(PasswordActivity.this, LoginActivity.class));
 
                             } else {
 
-                                Toast.makeText(PasswordActivity.this, "Error in sending reset mail", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(PasswordActivity.this, "Error in sending reset mail", Toast.LENGTH_LONG).show();
                             }
                         }
                     });

@@ -64,7 +64,9 @@ public class LoginActivity extends AppCompatActivity {
                 String loginEmail = loginEmailText.getText().toString();
                 String loginPass = loginPassText.getText().toString();
 
-                if(!TextUtils.isEmpty(loginEmail) && !TextUtils.isEmpty(loginPass)){
+                if(!TextUtils.isEmpty(loginEmail) && !TextUtils.isEmpty(loginPass) &&
+                        loginEmail.matches(".+@(uowmail\\.edu\\.au|live\\.mdx\\.ac\\.uk|cud\\.ac\\.ae|gmail\\.com)$")){
+
                     loginProgress.setVisibility(View.VISIBLE);
 
                     mAuth.signInWithEmailAndPassword(loginEmail, loginPass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -84,6 +86,10 @@ public class LoginActivity extends AppCompatActivity {
                             loginProgress.setVisibility(View.INVISIBLE);
                         }
                     });
+
+                } else {
+
+                    Toast.makeText(LoginActivity.this, "Either fields empty or email invalid" , Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -107,7 +113,7 @@ public class LoginActivity extends AppCompatActivity {
 
         } else {
             //if user has not verified their accounts yet
-            Toast.makeText(this, "Please verify your email", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please verify your email", Toast.LENGTH_LONG).show();
             mAuth.signOut();
         }
     }

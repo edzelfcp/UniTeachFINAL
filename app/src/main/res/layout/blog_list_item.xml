@@ -4,34 +4,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/cardViewColor"
     tools:layout_editor_absoluteY="25dp">
 
     <android.support.v7.widget.CardView
         android:id="@+id/main_blog_post"
         android:layout_width="0dp"
-        android:layout_height="529dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="42dp"
-        android:background="@color/cardViewColor"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
         android:padding="20dp"
+        app:cardBackgroundColor="@color/cardViewColor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.409">
+        app:layout_constraintVertical_bias="0.0">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:background="@color/cardViewColor">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/blog_user_image"
                 android:layout_width="57dp"
                 android:layout_height="61dp"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:src="@drawable/web_hi_res_512"
                 app:layout_constraintStart_toStartOf="parent"
@@ -45,7 +44,7 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/post_username"
                 android:textColor="@android:color/black"
-                android:textSize="18sp"
+                android:textSize="14sp"
                 app:layout_constraintStart_toEndOf="@+id/blog_user_image"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -62,6 +61,8 @@
                 android:id="@+id/blog_image"
                 android:layout_width="0dp"
                 android:layout_height="292dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:scaleType="centerCrop"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -73,86 +74,80 @@
             <TextView
                 android:id="@+id/blog_desc"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginStart="16dp"
                 android:text="@string/description_text"
+                android:textColor="@android:color/black"
                 android:textSize="18sp"
-                app:layout_constraintBottom_toTopOf="@+id/relativeLayout2"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/blog_image" />
-
-            <RelativeLayout
-                android:id="@+id/relativeLayout2"
-                android:layout_width="0dp"
-                android:layout_height="49dp"
-                android:background="@color/whiteTransparentHalf"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent">
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/blog_comment_count" />
 
-                <Button
-                    android:id="@+id/blog_delete_btn"
-                    android:layout_width="39dp"
-                    android:layout_height="39dp"
-                    android:layout_alignTop="@+id/blog_comment_icon"
-                    android:layout_marginStart="76dp"
-                    android:layout_toEndOf="@+id/blog_comment_icon"
-                    android:background="@mipmap/delete_icon"
-                    android:enabled="false"
-                    android:textAllCaps="false"
-                    android:visibility="visible"
-                    tools:layout_editor_absoluteX="298dp"
-                    tools:layout_editor_absoluteY="121dp" />
+            <Button
+                android:id="@+id/blog_delete_btn"
+                android:layout_width="39dp"
+                android:layout_height="39dp"
+                android:layout_alignTop="@+id/blog_comment_icon"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_toEndOf="@+id/blog_comment_icon"
+                android:background="@mipmap/delete_icon"
+                android:enabled="false"
+                android:textAllCaps="false"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/blog_image" />
 
-                <ImageView
-                    android:id="@+id/blog_like_btn"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignStart="@+id/blog_like_count"
-                    android:layout_marginStart="6dp"
-                    app:srcCompat="@mipmap/action_like_gray" />
+            <ImageView
+                android:id="@+id/blog_like_btn"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignStart="@+id/blog_like_count"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/blog_image"
+                app:srcCompat="@mipmap/action_like_gray" />
 
-                <TextView
-                    android:id="@+id/blog_like_count"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginStart="29dp"
-                    android:text="0 Liked"
-                    tools:layout_editor_absoluteX="0dp" />
+            <TextView
+                android:id="@+id/blog_like_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="16dp"
+                android:text="0 Liked"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/blog_like_btn" />
 
-                <TextView
-                    android:id="@+id/blog_comment_count"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginStart="49dp"
-                    android:layout_toEndOf="@+id/blog_like_count"
-                    android:text="0 Comments"
-                    tools:layout_editor_absoluteX="299dp"
-                    tools:layout_editor_absoluteY="323dp" />
+            <ImageView
+                android:id="@+id/blog_comment_icon"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignStart="@+id/blog_comment_count"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toEndOf="@+id/blog_like_btn"
+                app:layout_constraintTop_toBottomOf="@+id/blog_image"
+                app:srcCompat="@mipmap/action_comment_icon" />
 
-                <ImageView
-                    android:id="@+id/blog_comment_icon"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignStart="@+id/blog_comment_count"
-                    android:layout_marginStart="22dp"
-                    app:srcCompat="@mipmap/action_comment_icon"
-                    tools:layout_editor_absoluteX="204dp"
-                    tools:layout_editor_absoluteY="0dp" />
-
-            </RelativeLayout>
+            <TextView
+                android:id="@+id/blog_comment_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="16dp"
+                android:layout_toEndOf="@+id/blog_like_count"
+                android:text="0 Comments"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/blog_like_count" />
 
         </android.support.constraint.ConstraintLayout>
 

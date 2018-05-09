@@ -81,9 +81,6 @@ public class TutorFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_tutor, container, false);
 
-        //addNewTutor = view.findViewById(R.id.add_new_tutor);
-        //addNewTutor.setOnClickListener(this);
-
         tutor_list = new ArrayList<>();
         user_list = new ArrayList<>();
         tutor_list_view = view.findViewById(R.id.tutor_list_view);
@@ -184,8 +181,8 @@ public class TutorFragment extends Fragment {
 
             Query nextQuery = firebaseFirestore.collection("Tutors")
                     .orderBy("timestamp", Query.Direction.DESCENDING)
-                    .startAfter(lastVisible)
-                    .limit(3);
+                    .startAfter(lastVisible);
+                    //.limit(3);
 
             nextQuery.addSnapshotListener(getActivity(), new EventListener<QuerySnapshot>() {
                 @Override

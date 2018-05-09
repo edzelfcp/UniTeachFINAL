@@ -196,7 +196,7 @@ public class SetupActivity extends AppCompatActivity {
 
                     if (ContextCompat.checkSelfPermission(SetupActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
 
-                        Toast.makeText(SetupActivity.this, "Permission Denied", Toast.LENGTH_LONG).show();
+                        Toast.makeText(SetupActivity.this, "Permission Granted", Toast.LENGTH_LONG).show();
                         ActivityCompat.requestPermissions(SetupActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
 
                     } else {

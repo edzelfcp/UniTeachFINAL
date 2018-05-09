@@ -20,8 +20,10 @@
 
     <ImageView
         android:id="@+id/new_book_image"
-        android:layout_width="299dp"
-        android:layout_height="319dp"
+        android:layout_width="389dp"
+        android:layout_height="333dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -42,106 +44,123 @@
 
     <TextView
         android:id="@+id/book_text"
-        android:layout_width="46dp"
-        android:layout_height="25dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="28dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
         android:text="Title:"
         android:textAlignment="textEnd"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/new_book_name"
+        android:textColor="@android:color/black"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/new_book_image" />
 
     <TextView
         android:id="@+id/price_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="18dp"
         android:text="Price (AED):"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/new_book_price"
+        android:textColor="@android:color/black"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view_edition" />
 
     <EditText
         android:id="@+id/new_book_name"
         android:layout_width="0dp"
-        android:layout_height="43dp"
-        android:layout_marginEnd="52dp"
-        android:layout_marginTop="20dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="48dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="18dp"
         android:ems="10"
-        android:inputType="textMultiLine|textPersonName"
-        android:singleLine="false"
+        android:singleLine="true"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.428"
+        app:layout_constraintStart_toEndOf="@+id/book_text"
         app:layout_constraintTop_toBottomOf="@+id/new_book_image" />
 
     <EditText
         android:id="@+id/new_book_price"
         android:layout_width="0dp"
-        android:layout_height="47dp"
-        android:layout_marginEnd="52dp"
-        android:layout_marginTop="8dp"
+        android:layout_height="49dp"
+        android:layout_marginEnd="48dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="5dp"
         android:ems="10"
         android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/price_text"
         app:layout_constraintTop_toBottomOf="@+id/new_book_edition" />
 
     <Button
         android:id="@+id/book_post_btn"
         android:layout_width="0dp"
-        android:layout_height="55dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:backgroundTint="@color/colorAccent"
+        android:background="@drawable/button1"
         android:text="Post"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/view_edition"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="18dp"
         android:text="Edition:"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/new_book_edition"
+        android:textColor="@android:color/black"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/book_text" />
 
     <EditText
         android:id="@+id/new_book_edition"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="52dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginEnd="48dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="5dp"
         android:ems="10"
         android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/view_edition"
         app:layout_constraintTop_toBottomOf="@+id/new_book_name" />
 
     <TextView
         android:id="@+id/book_email"
-        android:layout_width="wrap_content"
+        android:layout_width="81dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
         android:text="Seller's Email:"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/new_email"
+        android:textColor="@android:color/black"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/price_text" />
 
     <EditText
         android:id="@+id/new_email"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="52dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginEnd="48dp"
+        android:layout_marginStart="8dp"
         android:ems="10"
         android:inputType="textEmailAddress"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toTopOf="@+id/book_post_btn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/new_book_price" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/book_email"
+        app:layout_constraintTop_toBottomOf="@+id/new_book_price"
+        app:layout_constraintVertical_bias="0.258" />
 
 </android.support.constraint.ConstraintLayout>
