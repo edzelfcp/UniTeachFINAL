@@ -38,10 +38,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class BlogRecyclerAdapter extends RecyclerView.Adapter<BlogRecyclerAdapter.ViewHolder> {
 
-    /*final String [] option = {"Delete"};
-    ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.select_dialog_item, option);
-    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-    builder.set*/
 
     public List<BlogPost> blog_list;
     public List<User> user_list;

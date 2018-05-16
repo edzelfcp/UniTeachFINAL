@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -130,6 +133,7 @@ public class BookSellingFragment2 extends Fragment implements View.OnClickListen
 
                             lastVisible = documentSnapshots.getDocuments().get(documentSnapshots.size() - 1);
                             book_list.clear();
+                            user_list.clear();
                         }
 
                         for (DocumentChange doc : documentSnapshots.getDocumentChanges()) {
@@ -137,19 +141,33 @@ public class BookSellingFragment2 extends Fragment implements View.OnClickListen
                             if (doc.getType() == DocumentChange.Type.ADDED) {
 
                                 String bookPostId = doc.getDocument().getId();
-                                BookPost blogPost = doc.getDocument().toObject(BookPost.class).withId(bookPostId);
+                                final BookPost blogPost = doc.getDocument().toObject(BookPost.class).withId(bookPostId);
 
-                                if (FirstPageFirstLoad) {
+                                String bookUserId = doc.getDocument().getString("user_id");
+                                firebaseFirestore.collection("Users").document(bookUserId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
 
-                                    book_list.add(blogPost);
+                                        if(task.isSuccessful()){
 
-                                    //bookRecyclerAdapter.notifyDataSetChanged();
+                                            User user = task.getResult().toObject(User.class);
+                                            if (FirstPageFirstLoad) {
 
-                                } else {
+                                                user_list.add(user);
+                                                book_list.add(blogPost);
 
-                                    book_list.add(0, blogPost);
-                                }
-                                bookRecyclerAdapter.notifyDataSetChanged();
+                                            } else {
+
+                                                user_list.add(0, user);
+                                                book_list.add(0, blogPost);
+                                            }
+
+                                            bookRecyclerAdapter.notifyDataSetChanged();
+                                        }
+
+                                    }
+                                });
+
                             }
                         }
 
@@ -169,7 +187,8 @@ public class BookSellingFragment2 extends Fragment implements View.OnClickListen
 
             Query nextQuery = firebaseFirestore.collection("Books")
                     .orderBy("timestamp", Query.Direction.DESCENDING)
-                    .startAfter(lastVisible);
+                    .startAfter(lastVisible)
+                    .limit(3);
 
             nextQuery.addSnapshotListener(getActivity(), new EventListener<QuerySnapshot>() {
                 @Override
@@ -183,10 +202,25 @@ public class BookSellingFragment2 extends Fragment implements View.OnClickListen
                             if (doc.getType() == DocumentChange.Type.ADDED) {
 
                                 String bookPostId = doc.getDocument().getId();
-                                BookPost bookPost = doc.getDocument().toObject(BookPost.class).withId(bookPostId);
-                                book_list.add(bookPost);
+                                final BookPost bookPost = doc.getDocument().toObject(BookPost.class).withId(bookPostId);
+                                String bookUserId = doc.getDocument().getString("user_id");
 
-                                bookRecyclerAdapter.notifyDataSetChanged();
+                                firebaseFirestore.collection("Books").document(bookUserId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+                                        if(task.isSuccessful()){
+
+                                            User user = task.getResult().toObject(User.class);
+
+                                            user_list.add(user);
+                                            book_list.add(bookPost);
+
+                                            bookRecyclerAdapter.notifyDataSetChanged();
+                                        }
+                                    }
+                                });
+
                             }
                         }
                     }
